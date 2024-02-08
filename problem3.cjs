@@ -3,14 +3,18 @@ const fs = require("fs");
 function CreatingJSONFiles(dirPath) {
   let Number = Math.floor(Math.random() * 10 + 1);
   for (let index = 0; index < Number; index++) {
-    randomFilePath = dirPath + "/file" + index + ".json";
+    let randomFilePath = dirPath + "/file" + index + ".json";
     fs.writeFile(randomFilePath, " ", function (error) {
       if (error) {
         console.log(error);
       }
+       else{
+        console.log(`file${index} is created`);
+        deleteFiles(randomFilePath);
+       }
     });
   }
-  deleteFiles(dirPath);
+  
 }
 function checkDirExists(dirPath) {
   fs.stat(dirPath, (err, stats) => {
@@ -26,31 +30,33 @@ function checkDirExists(dirPath) {
           console.log(err);
         } else {
           CreatingJSONFiles(dirPath);
+
         }
+
       });
-    }
+     }
   });
 }
- function deleteFiles(dirPath){
-    fs.readdir(dirPath, (err, files) => {
-        if (err) {
-          console.error('Error reading directory:', err);
-          return;
-        }
-         else{
-          files.forEach(function(file){
-            const filePath=dirPath+'/'+file;
+ function deleteFiles(filePath){
+    // fs.readdir(dirPath, (err, files) => {
+    //     if (err) {
+    //       console.error('Error reading directory:', err);
+    //       return;
+    //     }
+    //      else{
+    //       files.forEach(function(file){
+    //         const filePath=dirPath+'/'+file;
             fs.unlink(filePath,(error)=>{
                  if(error){
                     console.log(error);
                  }
                   else{
-                    console.log(`${file} deleted successfully`);
+                    console.log(`${filePath} deleted successfully`);
                   }
             })
-          })
-         }
-        })
+        //   })
+        //  }
+        // })
  }
 module.exports = checkDirExists;
 /*
